@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:bnotes/helpers/adaptive.dart';
 import 'package:bnotes/helpers/constants.dart';
 import 'package:bnotes/helpers/globals.dart' as globals;
 import 'package:bnotes/helpers/note_color.dart';
@@ -44,7 +43,6 @@ class _DesktopNotesScreenState extends State<DesktopNotesScreen> {
   bool isBusy = false;
   FocusNode focusNode = FocusNode();
   int wordCount = 0;
-  bool isDesktop = false;
   int selectedIndex = 0;
   bool isSelected = false;
   bool darkModeOn = false;
@@ -315,7 +313,6 @@ class _DesktopNotesScreenState extends State<DesktopNotesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    isDesktop = isDisplayDesktop(context);
     var brightness = MediaQuery.of(context).platformBrightness;
     darkModeOn = (globals.themeMode == ThemeMode.dark ||
         (globals.themeMode == ThemeMode.system &&

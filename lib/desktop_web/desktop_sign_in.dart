@@ -8,7 +8,6 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../desktop/pages/desktop_forgot_pwd.dart';
-import '../helpers/adaptive.dart';
 import '../helpers/constants.dart';
 import '../helpers/globals.dart' as globals;
 import '../providers/user_api_provider.dart';
@@ -105,7 +104,6 @@ class _DesktopSignInState extends State<DesktopSignIn> {
 
   @override
   Widget build(BuildContext context) {
-    screenSize = getScreenSize(context);
     Widget loginContent = SingleChildScrollView(
       child: Form(
         key: _formKey,

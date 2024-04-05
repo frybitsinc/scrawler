@@ -1,7 +1,6 @@
 import 'package:bnotes/desktop_web/desktop_landing.dart';
 import 'package:bnotes/desktop_web/desktop_sign_in.dart';
 import 'package:bnotes/desktop_web/desktop_sign_up.dart';
-import 'package:bnotes/helpers/adaptive.dart';
 import 'package:bnotes/helpers/constants.dart';
 import 'package:bnotes/helpers/theme.dart';
 import 'package:bnotes/helpers/utility.dart';
@@ -46,7 +45,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   ThemeMode themeMode = ThemeMode.system;
   int themeID = 3;
-  ScreenSize _screenSize = ScreenSize.large;
 
   @override
   void initState() {
@@ -86,8 +84,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    _screenSize = getScreenSize(context);
-
     if (UniversalPlatform.isIOS) {
       return CupertinoApp(
         title: kAppName,

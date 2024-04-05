@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../helpers/adaptive.dart';
 import '../helpers/constants.dart';
 import '../helpers/globals.dart' as globals;
 import '../helpers/string_values.dart';
@@ -24,7 +24,6 @@ class DesktopSignUp extends StatefulWidget {
 }
 
 class _DesktopSignUpState extends State<DesktopSignUp> {
-  bool isDesktop = false;
   late SharedPreferences prefs;
   double signupWidth = 400;
 
@@ -90,8 +89,7 @@ class _DesktopSignUpState extends State<DesktopSignUp> {
         setState(() {});
         if (mounted) {
           Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                  builder: (BuildContext context) => const DesktopApp()),
+              MaterialPageRoute(builder: (BuildContext context) => const DesktopApp()),
               (route) => false);
         }
       } else {
@@ -119,9 +117,7 @@ class _DesktopSignUpState extends State<DesktopSignUp> {
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool darkModeOn = (globals.themeMode == ThemeMode.dark ||
-        (brightness == Brightness.dark &&
-            globals.themeMode == ThemeMode.system));
-    isDesktop = isDisplayDesktop(context);
+        (brightness == Brightness.dark && globals.themeMode == ThemeMode.system));
     Widget signUpItems = Form(
       key: _signUpFormKey,
       child: Column(
@@ -145,8 +141,7 @@ class _DesktopSignUpState extends State<DesktopSignUp> {
             child: TextFormField(
               controller: emailController,
               onChanged: (value) {
-                showSkipButton =
-                    value.isNotEmpty && RegExp(kEmailRegEx).hasMatch(value);
+                showSkipButton = value.isNotEmpty && RegExp(kEmailRegEx).hasMatch(value);
                 setState(() {});
               },
               validator: (value) {
@@ -249,8 +244,7 @@ class _DesktopSignUpState extends State<DesktopSignUp> {
         ],
       ),
     );
-    Widget otpItems =
-        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    Widget otpItems = Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Padding(
         padding: const EdgeInsets.only(bottom: 15.0),
         child: Text(
@@ -362,8 +356,7 @@ class _DesktopSignUpState extends State<DesktopSignUp> {
                         ..onTap = () {
                           Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      const DesktopSignIn()),
+                                  builder: (BuildContext context) => const DesktopSignIn()),
                               (route) => false);
                         }),
                 ]),
@@ -371,62 +364,110 @@ class _DesktopSignUpState extends State<DesktopSignUp> {
             ),
           ]),
     );
-    return kIsWeb
-        ? Scaffold(
-            resizeToAvoidBottomInset: false,
-            body: Row(
-              children: [
-                if (isDesktop)
-                  Expanded(
-                    child: Center(
-                      child: SvgPicture.asset(
-                        'images/welcome.svg',
-                        width: 300,
-                        height: 300,
-                      ),
-                    ),
-                  ),
-                Expanded(
-                  child: Center(
-                    child: SizedBox(
-                      width: signupWidth,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 30, vertical: 50),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(width: 2)),
-                        child: signupContent,
-                      ),
-                    ),
-                  ),
+
+    return AdaptiveScaffold(
+      transitionDuration: const Duration(milliseconds: 1000),
+      smallBreakpoint: const WidthPlatformBreakpoint(end: 700),
+      mediumBreakpoint: const WidthPlatformBreakpoint(begin: 700, end: 1000),
+      largeBreakpoint: const WidthPlatformBreakpoint(begin: 1000),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(56),
+        child: Container(),
+      ),
+      smallBody: (_) => Container(
+        decoration: const BoxDecoration(
+          border: Border(top: BorderSide(width: 2)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 30),
+          child: signupContent,
+        ),
+      ),
+      body: (_) => Row(
+        children: [
+          Expanded(
+            child: Center(
+              child: SizedBox(
+                width: signupWidth,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5), border: Border.all(width: 2)),
+                  child: signupContent,
                 ),
-              ],
+              ),
             ),
-          )
-        : Scaffold(
-            appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(56),
-              child: Container(),
-              // child: MoveWindow(
-              //   child: Container(
-              //     // color: Colors.amber,
-              //     padding: const EdgeInsets.symmetric(horizontal: 10),
-              //     child: Visibility(
-              //       visible: !UniversalPlatform.isMacOS,
-              //       child: const WindowControls(showMaxButton: false),
-              //     ),
-              //   ),
-              // ),
+          ),
+        ],
+      ),
+      largeBody: (_) => Row(
+        children: [
+          Expanded(
+            child: Center(
+              child: SvgPicture.asset(
+                'images/welcome.svg',
+                width: 300,
+                height: 300,
+              ),
             ),
-            bottomSheet: Container(
-              decoration: const BoxDecoration(
-                  border: Border(top: BorderSide(width: 2))),
-              child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 70, vertical: 30),
-                  child: signupContent),
-            ),
-          );
+          ),
+        ],
+      ),
+      destinations: [],
+    );
+
+    // return kIsWeb
+    //     ? Scaffold(
+    //         resizeToAvoidBottomInset: false,
+    //         body: Row(
+    //           children: [
+    //             if (isDesktop)
+    //               Expanded(
+    //                 child: Center(
+    //                   child: SvgPicture.asset(
+    //                     'images/welcome.svg',
+    //                     width: 300,
+    //                     height: 300,
+    //                   ),
+    //                 ),
+    //               ),
+    //             Expanded(
+    //               child: Center(
+    //                 child: SizedBox(
+    //                   width: signupWidth,
+    //                   child: Container(
+    //                     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+    //                     decoration: BoxDecoration(
+    //                         borderRadius: BorderRadius.circular(5), border: Border.all(width: 2)),
+    //                     child: signupContent,
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //           ],
+    //         ),
+    //       )
+    //     : Scaffold(
+    //         appBar: PreferredSize(
+    //           preferredSize: const Size.fromHeight(56),
+    //           child: Container(),
+    //           // child: MoveWindow(
+    //           //   child: Container(
+    //           //     // color: Colors.amber,
+    //           //     padding: const EdgeInsets.symmetric(horizontal: 10),
+    //           //     child: Visibility(
+    //           //       visible: !UniversalPlatform.isMacOS,
+    //           //       child: const WindowControls(showMaxButton: false),
+    //           //     ),
+    //           //   ),
+    //           // ),
+    //         ),
+    //         bottomSheet: Container(
+    //           decoration: const BoxDecoration(border: Border(top: BorderSide(width: 2))),
+    //           child: Padding(
+    //               padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 30),
+    //               child: signupContent),
+    //         ),
+    //       );
   }
 }
