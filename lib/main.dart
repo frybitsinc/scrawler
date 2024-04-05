@@ -8,7 +8,6 @@ import 'package:bnotes/mobile/cupertino/dash_cupertino.dart';
 import 'package:bnotes/mobile/material/dash_material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:window_manager/window_manager.dart';
@@ -32,7 +31,7 @@ void main() async {
       await windowManager.focus();
     });
   }
-  runApp(Phoenix(child: const MyApp()));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {

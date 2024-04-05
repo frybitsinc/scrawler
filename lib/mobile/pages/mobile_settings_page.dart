@@ -7,8 +7,8 @@ import 'package:bnotes/widgets/scrawl_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bnotes/helpers/globals.dart' as globals;
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:restart_app/restart_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../helpers/dbhelper.dart';
@@ -181,7 +181,7 @@ class _MobileSettingsPageState extends State<MobileSettingsPage> {
           break;
       }
       prefs.setInt('themeMode', themeCode);
-      Phoenix.rebirth(context);
+      Restart.restartApp(webOrigin: '/');
     });
     if (mounted) {
       Navigator.pop(context);
