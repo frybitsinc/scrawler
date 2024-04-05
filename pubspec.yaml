@@ -31,8 +31,7 @@ dependencies:
   universal_platform: ^1.0.0+1
   flutter_adaptive_scaffold: ^0.1.10+1
   flutter_phoenix: ^1.1.1       # replace by restart_app: ^1.2.1
-  window_manager: ^0.3.7        # replace by flutter_adaptive_scaffold: ^0.1.10+1
-
+  window_manager: ^0.3.8
 
 flutter_launcher_icons:
   ios: true
