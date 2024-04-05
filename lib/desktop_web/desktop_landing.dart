@@ -20,8 +20,8 @@ class _DesktopLandingState extends State<DesktopLanding> {
   getPreferences(context) async {
     prefs = await SharedPreferences.getInstance();
     isSignedIn = prefs.getBool('is_signed_in') ?? false;
-    globals.apiKey = await ApiProvider.fetchAPIKey();
-    globals.apiServer = await ApiProvider.fetchAPIServer();
+    // globals.apiKey = await ApiProvider.fetchAPIKey();
+    // globals.apiServer = await ApiProvider.fetchAPIServer();
     User user = User.empty();
     user.userId = prefs.getString('user_id') ?? '';
     user.userEmail = prefs.getString('user_email') ?? '';
@@ -46,7 +46,7 @@ class _DesktopLandingState extends State<DesktopLanding> {
   @override
   void initState() {
     super.initState();
-    getPreferences(context);
+    // getPreferences(context);
   }
 
   @override

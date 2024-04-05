@@ -79,6 +79,6 @@ flutter:
     - images/undraw_login.svg
     - images/welcome.svg
     - images/nothing_to_do.svg
-    - res/apikey
-    - res/apiserver
+#    - res/apikey
+#    - res/apiserver
     - res/languages.json
